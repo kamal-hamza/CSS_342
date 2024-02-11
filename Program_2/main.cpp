@@ -1,22 +1,23 @@
 #include <iostream>
-// #include "catalan.h"
 #include "greedy_robot.h"
 using namespace std;
 
-int main() {
-    // Catalan Number
-    // cout << "Enter a number to calculate catalan: ";
-    // int  num;
-    // cin >> num;
-    // long long ans = calcCatalan(num);
-    // cout << "Catalan: " << ans << endl;
+int main(int argc, char* argv[]) {
+    if (argc != 6) {
+        cout << "Usage: " << argv[0] << " <max_distance> <robot_x> <robot_y> <treasure_x> <treasure_y>" << endl;
+        return 1;
+    }
 
-    // Greedy Robot
-    int max_distance;
-    cin >> max_distance;
-    int robot_x, robot_y, treasure_x, treasure_y;
-    cin >> robot_x >> robot_y >> treasure_x >> treasure_y;
-    greedy_robot(max_distance, robot_x, robot_y, treasure_x, treasure_y);
+    int max_distance = atoi(argv[1]);
+    int robot_x = atoi(argv[2]);
+    int robot_y = atoi(argv[3]);
+    int treasure_x = atoi(argv[4]);
+    int treasure_y = atoi(argv[5]);
+
+    Coord robot(robot_x, robot_y);
+    Coord treasure(treasure_x, treasure_y);
+    GreedyRobot rb(max_distance, robot, treasure);
+    rb.findPath();
 
     return 0;
 }

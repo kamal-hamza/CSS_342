@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "/mnt/c/Users/kamal/OneDrive/Desktop/UWB/Year 1/Winter Quarter/CSS 342/Projects/CSS_342/Program_2",
+      "program": "/mnt/c/Users/kamal/OneDrive/Desktop/UWB/Year 1/Winter Quarter/CSS 342/Projects/CSS_342/Program_2/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ using namespace std;
 vector<int> generateRandomVectorData(int size) {
     random_device rd;
     mt19937 gen(rd());
-    uniform_real_distribution<int> dis(0, size);
+    uniform_int_distribution<int> dis(0, size);
     vector<int> result;
     for (int i = 0; i < size; ++i) {
         result.push_back(dis(gen));
@@ -18,7 +18,7 @@ vector<int> generateRandomVectorData(int size) {
 }
 
 int main(int argc, char *argv[]) {
-    if (3 != argc) {
+    if (4 != argc) {
         cout << "Invalid Number of Arguments, Usage is: " << "<sortType> <vectorSize> <print> \n the third paramter is optional type 'Print' if you want the vectors printed." << endl;
         return 1;
     }
@@ -47,22 +47,22 @@ int main(int argc, char *argv[]) {
     }
 
     if (sortType == "BubbleSort") {
-        bubbleSort(vec);
+        BubbleSort(vec, 0, vec.size() - 1);
     }
     else if (sortType == "InsertionSort") {
-        insertionSort(vec);
+        InsertionSort(vec, 0, vec.size());
     }
     else if (sortType == "MergeSort") {
-        mergeSort(vec);
+        MergeSort(vec, 0, vec.size());
     }
     else if (sortType == "IterativeMergeSort") {
-        iterativeMergeSort(vec);
+        IterativeMergeSort(vec, 0, vec.size());
     }
     else if (sortType == "QuickSort") {
-        quickSort(vec, 0, vec.size());
+        QuickSort(vec, 0, vec.size());
     }
     else if (sortType == "ShellSort") {
-        shellSort(vec);
+        ShellSort(vec, 0, vec.size());
     }
     else {
         cout << "invalid sort type please try again" << endl;

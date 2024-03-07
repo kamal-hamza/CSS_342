@@ -9,9 +9,9 @@ void swap(vector<int>& vec, int index1, int index2) {
     vec[index2] = temp;
 }
 
-void bubbleSort(vector<int>& vec) {
+void BubbleSort(vector<int>& vec, int start, int end) {
     int length = vec.size();
-    for (int i = length - 1; i > 0; i--) {
+    for (int i = end; i > start; i--) {
         for (int j = 0; j < i; j++) {
             if (vec[j] > vec[j+1]) {
                 swap(vec, j, j+1);
@@ -20,9 +20,9 @@ void bubbleSort(vector<int>& vec) {
     }
 }
 
-void insertionSort(vector<int>& vec) {
+void InsertionSort(vector<int>& vec, int start, int end) {
     int length = vec.size();
-    for (int i = 1; i < length; i++) {
+    for (int i = start + 1; i < end; i++) {
         int val = vec[i];
         int j = i - 1;
         while ((j >= 0) && (vec[j] > val)) {
@@ -33,49 +33,30 @@ void insertionSort(vector<int>& vec) {
     }
 }
 
-void mergeSort(vector<int>& vec) {
-    if (vec.size() > 1) {
-        int mid = vec.size() / 2;
-        auto start = vec.begin();
-        auto end = vec.begin() + mid;
-        vector<int> left(start, end);
-        auto start2 = vec.begin() + mid;
-        auto end2 = vec.end();
-        vector<int> right(start2, end2);
-        cout << vec[mid] << endl;
-        cout << "Left: ";
-        for (int i = 0; i < left.size(); ++i) {
-            cout << left[i] << ", ";
-        }
-        cout << endl;
-        cout << "Right: ";
-        for (int i = 0; i < right.size(); ++i) {
-            cout << right[i] << ", ";
-        }
-        cout << endl;
-        mergeSort(left);
-        mergeSort(right);
-        int i = 0, j = 0, k = 0;
-        while ((i < left.size()) && (j < right.size())) {
+void MergeSort(vector<int>& vec, int start, int end) {
+    if (start < end) {
+        int mid = start + (end - start) / 2;
+        vector<int> left(vec.begin() + start, vec.begin() + mid + 1);
+        vector<int> right(vec.begin() + mid + 1, vec.begin() + end + 1);
+        
+        MergeSort(left, 0, mid - start);
+        MergeSort(right, 0, end - mid - 1);
+        
+        int i = 0, j = 0, k = start;
+        while (i < left.size() && j < right.size()) {
             if (left[i] <= right[j]) {
-                vec[k] = left[i];
-                i += 1;
+                vec[k++] = left[i++];
+            } else {
+                vec[k++] = right[j++];
             }
-            else {
-                vec[k] = right[j];
-                j += 1;
-            }
-            k += 1;
         }
+        
         while (i < left.size()) {
-            vec[k] = left[i];
-            i += 1;
-            k += 1;
+            vec[k++] = left[i++];
         }
+        
         while (j < right.size()) {
-            vec[k] = right[j];
-            j += 1;
-            k += 1;
+            vec[k++] = right[j++];
         }
     }
 }
@@ -110,19 +91,18 @@ void merge(vector<int>& vec, int left, int mid, int right, vector<int>& temp) {
     }
 }
 
-void iterativeMergeSort(vector<int>& vec) {
-    int length = vec.size();
-    vector<int> temp(length, 0);
+void IterativeMergeSort(vector<int>& vec, int start, int end) {
+    vector<int> temp(end, 0);
     int size = 1;
-    while (size < length) {
-        int left = 0;
-        while (left < length - size) {
+    while (size < end) {
+        int left = start;
+        while (left < end - size) {
             int mid = left + size;
-            int right = min(left + 2*size, length);
+            int right = min(left + 2*size, end);
             merge(vec, left, mid, right, temp);
             left += 2*size;
         }
-        size += 2;
+        size *= 2;
     }
 }
 
@@ -173,7 +153,7 @@ void quickSortHelper(vector<int>& vec, int left, int right) {
     }
 }
 
-void quickSort(vector<int>& vec, int left, int right) {
+void QuickSort(vector<int>& vec, int left, int right) {
     if (left >= right) {
         return;
     }
@@ -183,12 +163,12 @@ void quickSort(vector<int>& vec, int left, int right) {
     }
 }
 
-void shellSort(vector<int>& vec) {
+void ShellSort(vector<int>& vec, int start, int end) {
     int gap = vec.size() / 2;
     while (gap >= 1) {
-        for (int j = gap; j < vec.size(); j++) {
+        for (int j = gap; j < end; j++) {
             int i = j - gap;
-            while (i >= 0) {
+            while (i >= start) {
                 if (vec[i+gap] > vec[i]) {
                     break;
                 }

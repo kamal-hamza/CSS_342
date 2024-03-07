@@ -2,9 +2,11 @@
 #include<string>
 #include <vector>
 #include <random>
+#include <chrono>
 #include "sort.cpp"
 
 using namespace std;
+using namespace std::chrono;
 
 vector<int> generateRandomVectorData(int size) {
     random_device rd;
@@ -18,19 +20,18 @@ vector<int> generateRandomVectorData(int size) {
 }
 
 int main(int argc, char *argv[]) {
-    if (4 != argc) {
-        cout << "Invalid Number of Arguments, Usage is: " << "<sortType> <vectorSize> <print> \n the third paramter is optional type 'Print' if you want the vectors printed." << endl;
+    if (argc < 3 || argc > 4) {
+        cout << "Invalid Number of Arguments, Usage is: " << "<sortType> <vectorSize> [<print>] \n the third parameter is optional, type 'Print' if you want the vectors printed." << endl;
         return 1;
     }
     string sortType = argv[1];
     int vectorSize = atoi(argv[2]);
-    string print = argv[3];
     bool toPrint = false;
-    if (print == "Print") {
-        toPrint = true;
-    }
-    else {
-        toPrint = false;
+    if (argc == 4) {
+        string print = argv[3];
+        if (print == "Print") {
+            toPrint = true;
+        }
     } 
 
     vector<int> vec = generateRandomVectorData(vectorSize);
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]) {
         }
         cout << endl;
     }
-
+    auto startTime = high_resolution_clock::now();
     if (sortType == "BubbleSort") {
         BubbleSort(vec, 0, vec.size() - 1);
     }
@@ -67,6 +68,8 @@ int main(int argc, char *argv[]) {
     else {
         cout << "invalid sort type please try again" << endl;
     }
+
+    auto endTime = high_resolution_clock::now();
     
     if (toPrint) {
         cout << "Sorted: ";
@@ -78,6 +81,10 @@ int main(int argc, char *argv[]) {
         }
         cout << endl;
     }
+
+    auto elapsedTime = duration_cast<microseconds>(endTime - startTime).count();
+
+    cout << "Execution Time: " << elapsedTime << " microseconds." << endl;
 
     return 0;
 }

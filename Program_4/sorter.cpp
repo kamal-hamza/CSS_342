@@ -3,7 +3,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
-#include "sort.cpp"
+#include "sorts.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -20,6 +20,9 @@ vector<int> generateRandomVectorData(int size) {
 }
 
 int main(int argc, char *argv[]) {
+
+    sorts sort = sorts();
+
     if (argc < 3 || argc > 4) {
         cout << "Invalid Number of Arguments, Usage is: " << "<sortType> <vectorSize> [<print>] \n the third parameter is optional, type 'Print' if you want the vectors printed." << endl;
         return 1;
@@ -48,22 +51,22 @@ int main(int argc, char *argv[]) {
     }
     auto startTime = high_resolution_clock::now();
     if (sortType == "BubbleSort") {
-        BubbleSort(vec, 0, vec.size() - 1);
+        sort.BubbleSort(vec, 0, vec.size() - 1);
     }
     else if (sortType == "InsertionSort") {
-        InsertionSort(vec, 0, vec.size());
+        sort.InsertionSort(vec, 0, vec.size());
     }
     else if (sortType == "MergeSort") {
-        MergeSort(vec, 0, vec.size());
+        sort.MergeSort(vec, 0, vec.size());
     }
     else if (sortType == "IterativeMergeSort") {
-        IterativeMergeSort(vec, 0, vec.size());
+        sort.IterativeMergeSort(vec, 0, vec.size());
     }
     else if (sortType == "QuickSort") {
-        QuickSort(vec, 0, vec.size());
+        sort.QuickSort(vec, 0, vec.size());
     }
     else if (sortType == "ShellSort") {
-        ShellSort(vec, 0, vec.size());
+        sort.ShellSort(vec, 0, vec.size());
     }
     else {
         cout << "invalid sort type please try again" << endl;

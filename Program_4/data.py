@@ -11,7 +11,7 @@ from sort import bubble_sort, iterative_merge_sort, insertion_sort, merge_sort, 
 def generate_list(size):
     return [random.randint(1, size) for _ in range(size)]
 
-def measure_time(sort_func, size, repetitions=3):
+def measure_time(sort_func, size, repetitions=5):
     total_time = 0
     for _ in range(repetitions):
         lst = generate_list(size)
@@ -25,7 +25,8 @@ def measure_time(sort_func, size, repetitions=3):
     avg_time = total_time / repetitions
     return (size, float(avg_time))
 
-list_sizes = [100, 200, 400, 800, 1000, 1500, 2000, 2100]
+list_sizes = [100, 150, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000, 1250, 1500, 1750, 2000, 2050, 2100, 2200, 2300, 2400, 2500, 2750, 3000, 3250, 3500, 3750, 4000]
+
 
 sorting_algorithms = {
     "Bubble_Sort": bubble_sort,
@@ -69,3 +70,26 @@ for algorithm, times in algorithm_data.items():
     sizes, times = zip(*times)
     plt.loglog(sizes, times, marker="o")
     plt.savefig(os.path.join(saveDir, 'loglog_'+algorithm+'.png'))
+
+plt.figure()
+for algorithm, times, in algorithm_data.items():
+    sizes, times = zip(*times)
+    plt.plot(sizes, times, marker="o", label={algorithm})
+
+plt.xlabel = ('Size')
+plt.ylabel = ('Time')
+plt.title("Algorithm Comparison")
+plt.legend()
+plt.savefig(os.path.join(saveDir, 'plot_combined.png'))
+
+plt.figure()
+for algorithm, times, in algorithm_data.items():
+    sizes, times = zip(*times)
+    plt.loglog(sizes, times, marker="o", label={algorithm})
+
+plt.xlabel = ('Size')
+plt.ylabel = ('Time')
+plt.title("Algorithm Comparison")
+plt.legend()
+plt.savefig(os.path.join(saveDir, 'loglog_combined.png'))
+

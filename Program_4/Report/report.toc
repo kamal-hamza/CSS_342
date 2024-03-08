@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{}%
+\contentsline {subsection}{\numberline {1.1}Bubble Sort}{3}{}%
+\contentsline {subsection}{\numberline {1.2}Insertion Sort}{5}{}%
+\contentsline {subsection}{\numberline {1.3}Merge Sort}{7}{}%
+\contentsline {subsection}{\numberline {1.4}Iterative Merge Sort}{9}{}%
+\contentsline {subsection}{\numberline {1.5}Quick Sort}{11}{}%
+\contentsline {subsection}{\numberline {1.6}Shell Sort}{12}{}%
+\contentsline {subsection}{\numberline {1.7}Comparison}{14}{}%
+\contentsline {subsection}{\numberline {1.8}Conclusion}{16}{}%

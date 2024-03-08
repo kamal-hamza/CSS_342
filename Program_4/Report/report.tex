@@ -1,13 +1,331 @@
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{verbatim}
 \usepackage{amsmath, amssymb, amsfonts}
 
-
+\setlength{\parindent}{0pt}
 
 \title{Sorting Algorithms}
 \date{\today}
 \author{Hamza Kamal}
 
 \begin{document}
+
 \maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+In this report I will be discussing how different sorting algorithms perform and analyze their time complexities and compare them to one another.
+
+\vspace{\baselineskip}
+\subsection{Bubble Sort}
+Here is the implementation of the bubble sort algorithm:
+
+\begin{verbatim}
+    void BubbleSort(vector<int>& vec, int start, int end) {
+        int length = vec.size();
+        for (int i = end; i > start; i--) {
+            for (int j = 0; j < i; j++) {
+                if (vec[j] > vec[j+1]) {
+                    swap(vec, j, j+1);
+                }
+            }
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n)$: This happens when the list is already sorted and the bubble sort just performs $O(n)$ comparisons.
+    \item Average Case: $O(n^2)$
+    \item Worst Case: $O(n^2)$: This usually happens when the largest element is placed in the start of the list which makes bubble sort compare and swap through the entire array to find the correct index for the largest element.
+\end{itemize}
+
+This is also shown by the graphs that I made by timing the function and collecting data. \\
+
+Here is the Log-Log plot for the bubble sort sorting function:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Bubble_Sort.png}
+    \caption{Bubble Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for the bubble sort function:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Bubble_Sort.png}
+    \caption{Bubble Sort Plot}
+\end{figure}
+
+As demonstrated by the graphs the time complexity of the bubble sort algorithm is $O(n^2)$. \\
+
+
+Some ways that bubble sort can be improved is by implementing the adaptive bubble sort algorithm that takes advantage of the pre-sorted list by tracking if any swaps were made during a pass. With this the algorithm can stop as soon as the list is sorted removing the unnecessary comparisons.
+
+\vspace{\baselineskip}
+\subsection{Insertion Sort}
+Here is the implementation of the insertion sort function:
+
+\begin{verbatim}
+    void InsertionSort(vector<int>& vec, int start, int end) {
+        int length = vec.size();
+        for (int i = start + 1; i < end; i++) {
+            int val = vec[i];
+            int j = i - 1;
+            while ((j >= 0) && (vec[j] > val)) {
+                vec[j+1] = vec[j];
+                j -= 1;
+            }
+            vec[j+1] = val;
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n)$: This happens when the list is already sorted just like bubble sort.
+    \item Average Case: $O(n^2)$
+    \item Worst Case: $O(n^2)$: This happens when the list is reversed.
+\end{itemize}
+
+Here is the Log-Log plot for insertion sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Insertion_Sort.png}
+    \caption{Insertion Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for insertion sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Insertion_Sort.png}
+    \caption{Insertion Sort Plot}
+\end{figure}
+
+As shown in the graphs the time complexity of insertion sort is $O(n^2)$. \\
+
+We can improve insertion sort by using binary search instead of linear search to find indexes for elements. This reduces our time complexity because we are able to find elements faster.
+
+\vspace{\baselineskip}
+\subsection{Merge Sort}
+Here is the implementation of the merge sort function:
+\begin{verbatim}
+    void MergeSort(vector<int>& vec, int start, int end) {
+        if (start < end) {
+            int mid = start + (end - start) / 2;
+            vector<int> left(vec.begin() + start, vec.begin() + mid + 1);
+            vector<int> right(vec.begin() + mid + 1, vec.begin() + end + 1);
+            
+            MergeSort(left, 0, mid - start);
+            MergeSort(right, 0, end - mid - 1);
+            
+            int i = 0, j = 0, k = start;
+            while (i < left.size() && j < right.size()) {
+                if (left[i] <= right[j]) {
+                    vec[k++] = left[i++];
+                } else {
+                    vec[k++] = right[j++];
+                }
+            }
+            
+            while (i < left.size()) {
+                vec[k++] = left[i++];
+            }
+            
+            while (j < right.size()) {
+                vec[k++] = right[j++];
+            }
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n \log n)$: This happens when all elements of the first array are less than the elements of the second array.
+    \item Average Case: $O(n \log n)$
+    \item Worst Case: $O(n \log n)$: When the list is sorted in descending order. 
+\end{itemize}
+
+Here is the Log-Log plot for merge sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Merge_Sort.png}
+    \caption{Merge Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for merge sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Merge_Sort.png}
+    \caption{Merge Sort Plot}
+\end{figure}
+
+As demonstrated by the graphs the time complexity of the merge sort function is $O(n \log n)$. \\
+
+The improved version of merge sort is the iterative merge sort which uses loops instead of recursion to implement the merge sort function.
+
+\vspace{\baselineskip}
+\subsection{Iterative Merge Sort}
+Here is the implementation of iterative merge sort:
+\begin{verbatim}
+    void IterativeMergeSort(vector<int>& vec, int start, int end) {
+        vector<int> temp(end, 0);
+        int size = 1;
+        while (size < end) {
+            int left = start;
+            while (left < end - size) {
+                int mid = left + size;
+                int right = min(left + 2*size, end);
+                merge(vec, left, mid, right, temp);
+                left += 2*size;
+            }
+            size *= 2;
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n \log n)$
+    \item Average Case: $O(n \log n)$
+    \item Worst Case: $O(n \log n)$
+\end{itemize}
+
+Here is the Log-Log plot for iterative merge sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Iterative_Merge_Sort.png}
+    \caption{Iterative Merge Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for iterative merge sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Iterative_Merge_Sort.png}
+    \caption{Iterative Merge Sort Plot}
+\end{figure}
+
+The Iterative merge sort function is slightly faster than the recursive version of merge sort. As demonstrated by the graphs.
+
+\vspace{\baselineskip}
+\subsection{Quick Sort}
+Here is the implementation of the quick sort function:
+\begin{verbatim}
+    void QuickSort(vector<int>& vec, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        else if (left < right) {
+            medianPivot(vec, left, right);
+            quickSortHelper(vec, left, right);
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n \log n)$: Depends on how the partition is chosen.
+    \item Average Case: $O(n \log n)$
+    \item Worst Case: $O(n \log n)$: Depends on how the partition is chosen.
+\end{itemize}
+
+Here is the Log-Log plot for quick sort:
+\begin{figure}
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Quick_Sort.png}
+    \caption{Quick Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for quick sort:
+\begin{figure}
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Quick_Sort.png}
+    \caption{Quick Sort Plot}
+\end{figure}
+
+The time complexity of quick sort is $O(n \log n)$ as shown in the graphs. \\
+
+The Quick Sort function has a better space complexity than the merge sort function even though the time complexities are the same. We can improve the time complexity of quick sort by carefully choosing the partitions, so they result in lists that are favorable and easy to sort.
+
+\vspace{\baselineskip}
+\subsection{Shell Sort}
+Here is the implementation of shell sort:
+\begin{verbatim}
+    void ShellSort(vector<int>& vec, int start, int end) {
+        int gap = vec.size() / 2;
+        while (gap >= 1) {
+            for (int j = gap; j < end; j++) {
+                int i = j - gap;
+                while (i >= start) {
+                    if (vec[i+gap] > vec[i]) {
+                        break;
+                    }
+                    else {
+                        swap(vec, i+gap, i);
+                    }
+                    i -= gap;
+                }
+            }
+            gap = gap / 2;
+        }
+    }
+\end{verbatim}
+
+\begin{itemize}
+    \item Best Case: $O(n)$: When the list is already sorted.
+    \item Average Case: $O(n \log n)$
+    \item Worst Case: $O(n^2)$: This happens when using the original gap sequence.
+\end{itemize}
+
+Here is the Log-Log plot of the shell sort function:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_Shell_Sort.png}
+    \caption{Shell Sort Log-Log Plot}
+\end{figure}
+
+Here is the normal plot for shell sort:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_Shell_Sort.png}
+    \caption{Shell Sort Plot}
+\end{figure}
+
+The graphs demonstrate that the time complexity of shell sort is $O(n \log n)$. \\
+
+We can improve shell sort by using better gap sequences that have proven time complexities which are available on the shell sort wiki.
+
+\vspace{\baselineskip}
+\subsection{Comparison}
+Here I am going to compare all the different sorting functions. \\
+Here is a Log-Log plot of all the sorting functions together:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/loglog_combined.png}
+    \caption{Sorting Log-Log Plot}
+\end{figure}
+
+Here is a normal plot of all the sorting functions:
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{img/plot_combined.png}
+    \caption{Sorting Plot}
+\end{figure}
+
+These graphs demonstrate that some sorting functions are better than others. For example:
+\begin{itemize}
+    \item Quick Sort and Shell Sort are basically constant.
+    \item The worst algorithm is Iterative Merge Sort
+    \item Bubble Sort performs worse than Insertion Sort
+\end{itemize}
+
+\vspace{\baselineskip}
+\subsection{Conclusion}
+In summary, this report looked at different ways to organize lists of numbers. We studied Bubble Sort, Insertion Sort, Merge Sort, Iterative Merge Sort, Quick Sort, and Shell Sort. We checked how fast they are and how well they work with big lists. \\
+
+Bubble Sort and Insertion Sort are easy to understand but can be slow with big lists. Merge Sort and its iterative version are quicker and work well with big lists. Quick Sort is fast too, especially if we pick the right starting points. Shell Sort is also fast, especially when we use the right patterns. \\
+
+When we compared them, Quick Sort and Shell Sort were consistently fast, even with big lists. But Bubble Sort and Iterative Merge Sort were slower, especially with lots of numbers. \\
+
+We should research each sorting function as they have different use cases. For example shell sort is good at sorting arrays that have been almost sorted and just have a few outliers.
 \end{document}
